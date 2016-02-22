@@ -1,0 +1,14 @@
+Card Reader / Writer:
+
+Goal
+--
+
+Implement an XML reader/writer file for information on cards.
+Implement a manager that can read the cards and pull them from decks.
+
+Every card should have a:
+-Title
+-Action
+-Resource Type
+-Value
+-Target
