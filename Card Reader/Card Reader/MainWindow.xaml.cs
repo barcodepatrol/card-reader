@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
+using System.Xml;
 
 namespace Card_Reader
 {
@@ -21,9 +22,20 @@ namespace Card_Reader
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		// =========================================================
+		// ======================= Variables =======================
+		// =========================================================
+		XmlDocument xml;
+
+		// =========================================================
+		// ==================== Event Handlers =====================
+		// =========================================================
+
+		// Constructor
 		public MainWindow()
 		{
 			InitializeComponent();
+			xml = new XmlDocument();
 		}
 
 		// Select a file and open it
@@ -43,7 +55,7 @@ namespace Card_Reader
 			if (result == true)
 			{
 				// Open document
-				CurrentFile.Text = fibox.FileName;
+				LoadXml(fibox.FileName);
 			}
 		}
 
@@ -71,8 +83,44 @@ namespace Card_Reader
 			if (e.LeftButton == MouseButtonState.Pressed)
 			{
 				// Sets the CurrentFile's text to equal the current selected file
-				CurrentFile.Text = (string)FileList.Items[FileList.SelectedIndex];
+				LoadXml((string)FileList.Items[FileList.SelectedIndex]);
 			}
+		}
+
+		// =========================================================
+		// ===================== XML Functions =====================
+		// =========================================================
+
+		// Loads the entire XML Document and displays it on the screen
+		private void LoadXml(string file)
+		{
+			try
+			{
+				// Load the file
+				xml.Load(file);
+
+				// Displays the xml data
+				CurrentFile.Text           = GetName(file);
+				CurrentDescriptionBox.Text = GetDesc(file);
+			}
+			catch (XmlException)
+			{
+				MessageBox.Show("XML Load Failure");
+			}
+		}
+
+		// Returns the name of the document
+		private string GetName(string file)
+		{
+			// Select the name node's child value: return's the name
+			return xml.SelectSingleNode("/card/main/name").FirstChild.Value;
+		}
+
+		// Returns the name of the document
+		private string GetDesc(string file)
+		{
+			// Select the name node's child value: return's the description
+			return xml.SelectSingleNode("/card/main/description").FirstChild.Value;
 		}
 	}
 }
