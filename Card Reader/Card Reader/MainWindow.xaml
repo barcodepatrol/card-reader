@@ -7,10 +7,10 @@
         mc:Ignorable="d"
         Title="Card Reader" Height="500" Width="450" Background="#FF111111" Foreground="White">
 	<Grid>
-		<Button x:Name="OpenFile" Content="Open File" HorizontalAlignment="Left" Margin="20,20,0,0" VerticalAlignment="Top" Width="75" Foreground="#FFDDDDDD" Background="#FF272727"/>
+		<Button x:Name="OpenFile" Content="Open File" HorizontalAlignment="Left" Margin="20,20,0,0" VerticalAlignment="Top" Width="75" Foreground="#FFDDDDDD" Background="#FF272727" Click="OpenFile_Click"/>
 		<Button x:Name="SaveFile" Content="Save File" HorizontalAlignment="Left" Margin="20,60,0,0" VerticalAlignment="Top" Width="75" Foreground="#FFDDDDDD" Background="#FF272727"/>
-		<Button x:Name="OpenFolder" Content="Open Folder" HorizontalAlignment="Left" Margin="20,100,0,0" VerticalAlignment="Top" Width="75" Foreground="#FFDDDDDD" Background="#FF272727"/>
-		<ListBox x:Name="FileList" HorizontalAlignment="Left" Height="294" Margin="20,161,0,0" VerticalAlignment="Top" Width="105" Background="#FF272727" Foreground="#FFDDDDDD"/>
+		<Button x:Name="OpenFolder" Content="Open Folder" HorizontalAlignment="Left" Margin="20,100,0,0" VerticalAlignment="Top" Width="75" Foreground="#FFDDDDDD" Background="#FF272727" Click="OpenFolder_Click"/>
+		<ListBox x:Name="FileList" HorizontalAlignment="Left" Height="294" Margin="20,161,0,0" VerticalAlignment="Top" Width="105" Background="#FF272727" Foreground="#FFDDDDDD" MouseDoubleClick="FileList_MouseDoubleClick"/>
 		<Label x:Name="FileLabel" Content="File List" HorizontalAlignment="Left" Margin="20,135,0,0" VerticalAlignment="Top" Foreground="#FFDDDDDD"/>
 		<Label x:Name="CurrentFileLabel" Content="Current File:" HorizontalAlignment="Left" Margin="146,19,0,0" VerticalAlignment="Top" Foreground="#FFCBCBCB"/>
 		<TextBlock x:Name="CurrentFile" HorizontalAlignment="Left" Margin="225,24,0,0" TextWrapping="Wrap" Text="Current File" VerticalAlignment="Top" Foreground="White" OpacityMask="Black"/>
