@@ -26,6 +26,7 @@ namespace Card_Reader
 		// ======================= Variables =======================
 		// =========================================================
 		XmlDocument xml;
+		List<string> paths;
 
 		// =========================================================
 		// ==================== Event Handlers =====================
@@ -71,8 +72,30 @@ namespace Card_Reader
 			// If they did not cancel or close the form
 			if (result != System.Windows.Forms.DialogResult.Cancel)
 			{
-				// Sets the FileList to display the files
-				FileList.ItemsSource = Directory.GetFiles(fobox.SelectedPath);
+				// Sets the FileList to display the files by their names (not paths)
+				// Key: name of card | Value: file path
+				List<string> names = new List<string>();
+				paths              = new List<string>();
+
+				// Gets the name of each file and adds it to our list
+				foreach (string file in Directory.GetFiles(fobox.SelectedPath))
+				{
+					try
+					{
+						xml.Load(file);
+						names.Add(xml.SelectSingleNode("/card/main/name").FirstChild.Value);
+						paths.Add(file);
+					}
+					catch (XmlException)
+					{
+						names.Add("Empty/Broken Xml File");
+						paths.Add(file);
+					}
+				}
+
+				// Set the file list to display the names
+				// When we access the filelist via names, we access paths not names
+				FileList.ItemsSource = names;
 			}
 		}
 
@@ -83,7 +106,7 @@ namespace Card_Reader
 			if (e.LeftButton == MouseButtonState.Pressed)
 			{
 				// Sets the CurrentFile's text to equal the current selected file
-				LoadXml((string)FileList.Items[FileList.SelectedIndex]);
+				LoadXml((string)paths[FileList.SelectedIndex]);
 			}
 		}
 

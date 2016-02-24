@@ -5,19 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Card_Reader"
         mc:Ignorable="d"
-        Title="Card Reader" Height="500" Width="450" Background="#FF111111" Foreground="White">
+        Title="Card Reader" Height="500" Width="700" Background="#FF111111" Foreground="White">
 	<Grid>
-		<Button x:Name="OpenFile" Content="Open File" HorizontalAlignment="Left" Margin="20,20,0,0" VerticalAlignment="Top" Width="75" Foreground="#FFDDDDDD" Background="#FF272727" Click="OpenFile_Click"/>
-		<Button x:Name="SaveFile" Content="Save File" HorizontalAlignment="Left" Margin="20,60,0,0" VerticalAlignment="Top" Width="75" Foreground="#FFDDDDDD" Background="#FF272727"/>
-		<Button x:Name="OpenFolder" Content="Open Folder" HorizontalAlignment="Left" Margin="20,100,0,0" VerticalAlignment="Top" Width="75" Foreground="#FFDDDDDD" Background="#FF272727" Click="OpenFolder_Click"/>
-		<ListBox x:Name="FileList" HorizontalAlignment="Left" Height="294" Margin="20,161,0,0" VerticalAlignment="Top" Width="105" Background="#FF272727" Foreground="#FFDDDDDD" MouseDoubleClick="FileList_MouseDoubleClick"/>
-		<Label x:Name="FileLabel" Content="File List" HorizontalAlignment="Left" Margin="20,135,0,0" VerticalAlignment="Top" Foreground="#FFDDDDDD"/>
-		<Label x:Name="CurrentFileLabel" Content="Current File:" HorizontalAlignment="Left" Margin="146,19,0,0" VerticalAlignment="Top" Foreground="#FFCBCBCB"/>
-		<TextBlock x:Name="CurrentFile" HorizontalAlignment="Left" Margin="225,24,0,0" TextWrapping="Wrap" Text="Current File" VerticalAlignment="Top" Foreground="White" OpacityMask="Black"/>
-		<Label x:Name="CurrentDescriptionLabel" Content="Current Description" HorizontalAlignment="Left" Margin="146,135,0,0" VerticalAlignment="Top" Foreground="#FFDDDDDD"/>
-		<TextBox x:Name="CurrentDescriptionBox" HorizontalAlignment="Left" Height="124" Margin="146,161,0,0" TextWrapping="Wrap" Text="Description" VerticalAlignment="Top" Width="274" Background="#FF272727" Foreground="#FFDDDDDD" IsReadOnly="True"/>
-		<Label x:Name="NewDescriptionLabel" Content="New Description" HorizontalAlignment="Left" Margin="146,294,0,0" VerticalAlignment="Top" Foreground="#FFDDDDDD"/>
-		<TextBox x:Name="NewDescriptionBox" HorizontalAlignment="Left" Height="130" Margin="146,325,0,0" TextWrapping="Wrap" Text="Description" VerticalAlignment="Top" Width="274" Background="#FF272727" Foreground="#FFDDDDDD"/>
-
+		<Button x:Name="OpenFile" Content="Open File" HorizontalAlignment="Left" Margin="38,20,0,0" VerticalAlignment="Top" Width="75" Foreground="#FFDDDDDD" Background="#FF272727" Click="OpenFile_Click"/>
+		<Button x:Name="SaveFile" Content="Save File" HorizontalAlignment="Left" Margin="38,60,0,0" VerticalAlignment="Top" Width="75" Foreground="#FFDDDDDD" Background="#FF272727"/>
+		<Button x:Name="OpenFolder" Content="Open Folder" HorizontalAlignment="Left" Margin="38,100,0,0" VerticalAlignment="Top" Width="75" Foreground="#FFDDDDDD" Background="#FF272727" Click="OpenFolder_Click"/>
+		<ListBox x:Name="FileList" HorizontalAlignment="Left" Height="294" Margin="38,161,0,0" VerticalAlignment="Top" Width="280" Background="#FF272727" Foreground="#FFDDDDDD" MouseDoubleClick="FileList_MouseDoubleClick"/>
+		<Label x:Name="FileLabel" Content="File List" HorizontalAlignment="Left" Margin="38,135,0,0" VerticalAlignment="Top" Foreground="#FFDDDDDD"/>
+		<Label x:Name="CurrentFileLabel" Content="Current File:" HorizontalAlignment="Left" Margin="143,19,0,0" VerticalAlignment="Top" Foreground="#FFCBCBCB"/>
+		<TextBlock x:Name="CurrentFile" HorizontalAlignment="Left" Margin="222,24,0,0" TextWrapping="Wrap" Text="Current File" VerticalAlignment="Top" Foreground="White" OpacityMask="Black"/>
+		<Label x:Name="CurrentDescriptionLabel" Content="Current Description" HorizontalAlignment="Left" Margin="382,135,0,0" VerticalAlignment="Top" Foreground="#FFDDDDDD"/>
+		<TextBox x:Name="CurrentDescriptionBox" HorizontalAlignment="Left" Height="124" Margin="382,161,0,0" TextWrapping="Wrap" Text="Description" VerticalAlignment="Top" Width="274" Background="#FF272727" Foreground="#FFDDDDDD" IsReadOnly="True"/>
+		<Label x:Name="NewDescriptionLabel" Content="New Description" HorizontalAlignment="Left" Margin="382,294,0,0" VerticalAlignment="Top" Foreground="#FFDDDDDD"/>
+		<TextBox x:Name="NewDescriptionBox" HorizontalAlignment="Left" Height="130" Margin="382,325,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="274" Background="#FF272727" Foreground="#FFDDDDDD"/>
+		<Label x:Name="NewFileLabel" Content="New File Name:" HorizontalAlignment="Left" Margin="124,44,0,0" VerticalAlignment="Top" Foreground="#FFCBCBCB"/>
+		<TextBox x:Name="NewFileBox" HorizontalAlignment="Left" Height="23" Margin="222,46,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="96" Foreground="#FFDDDDDD" Background="#FF272727"/>
 	</Grid>
 </Window>
