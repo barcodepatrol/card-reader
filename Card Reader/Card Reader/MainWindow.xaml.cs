@@ -27,8 +27,8 @@ namespace Card_Reader
 		// =========================================================
 		XmlDocument xml;
 		List<string> paths;
-		string currentPath;
-		string folderPath;
+		string currentPath = "";
+		string folderPath = "";
 
 		// =========================================================
 		// ==================== Event Handlers =====================
