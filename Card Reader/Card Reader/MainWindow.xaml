@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Card_Reader"
         mc:Ignorable="d"
-        Title="Card Reader" Height="500" Width="700" Background="#FF111111" Foreground="White">
+        Title="Card Reader" Height="520" Width="700" Background="#FF111111" Foreground="White">
 	<Grid>
 		<Button x:Name="OpenFile" Content="Open File" HorizontalAlignment="Left" Margin="38,20,0,0" VerticalAlignment="Top" Width="75" Foreground="#FFDDDDDD" Background="#FF272727" Click="OpenFile_Click"/>
-		<Button x:Name="SaveFile" Content="Save File" HorizontalAlignment="Left" Margin="38,60,0,0" VerticalAlignment="Top" Width="75" Foreground="#FFDDDDDD" Background="#FF272727"/>
+		<Button x:Name="SaveFile" Content="Save File" HorizontalAlignment="Left" Margin="38,60,0,0" VerticalAlignment="Top" Width="75" Foreground="#FFDDDDDD" Background="#FF272727" Click="SaveFile_Click"/>
 		<Button x:Name="OpenFolder" Content="Open Folder" HorizontalAlignment="Left" Margin="38,100,0,0" VerticalAlignment="Top" Width="75" Foreground="#FFDDDDDD" Background="#FF272727" Click="OpenFolder_Click"/>
 		<ListBox x:Name="FileList" HorizontalAlignment="Left" Height="294" Margin="38,161,0,0" VerticalAlignment="Top" Width="280" Background="#FF272727" Foreground="#FFDDDDDD" MouseDoubleClick="FileList_MouseDoubleClick"/>
 		<Label x:Name="FileLabel" Content="File List" HorizontalAlignment="Left" Margin="38,135,0,0" VerticalAlignment="Top" Foreground="#FFDDDDDD"/>

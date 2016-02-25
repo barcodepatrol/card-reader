@@ -27,6 +27,8 @@ namespace Card_Reader
 		// =========================================================
 		XmlDocument xml;
 		List<string> paths;
+		string currentPath;
+		string folderPath;
 
 		// =========================================================
 		// ==================== Event Handlers =====================
@@ -56,7 +58,8 @@ namespace Card_Reader
 			if (result == true)
 			{
 				// Open document
-				LoadXml(fibox.FileName);
+				currentPath = fibox.FileName;
+				LoadXml(currentPath);
 			}
 		}
 
@@ -77,8 +80,11 @@ namespace Card_Reader
 				List<string> names = new List<string>();
 				paths              = new List<string>();
 
+				// Save the folder path
+				folderPath = fobox.SelectedPath;
+
 				// Gets the name of each file and adds it to our list
-				foreach (string file in Directory.GetFiles(fobox.SelectedPath))
+				foreach (string file in Directory.GetFiles(folderPath))
 				{
 					try
 					{
@@ -106,9 +112,27 @@ namespace Card_Reader
 			if (e.LeftButton == MouseButtonState.Pressed)
 			{
 				// Sets the CurrentFile's text to equal the current selected file
-				LoadXml((string)paths[FileList.SelectedIndex]);
+				currentPath = paths[FileList.SelectedIndex];
+				LoadXml(currentPath);
 			}
 		}
+
+		// Saves the currently selected file
+		private void SaveFile_Click(object sender, RoutedEventArgs e)
+		{
+			// If we have loaded a file already
+			if (currentPath.Length > 0)
+			{
+				// Saves the new xml document to the currently selected path
+				SaveXml(currentPath);
+
+				// We reload the same Xml so that the current data is wiped
+				LoadXml(currentPath);
+				UpdateFileList();
+				ClearBoxes();
+			}
+		}
+
 
 		// =========================================================
 		// ===================== XML Functions =====================
@@ -144,6 +168,90 @@ namespace Card_Reader
 		{
 			// Select the name node's child value: return's the description
 			return xml.SelectSingleNode("/card/main/description").FirstChild.Value;
+		}
+
+		// Saves the entire XML Document
+		private void SaveXml(string file)
+		{
+			try
+			{
+				// Change values
+				SaveName(file);
+				SaveDesc(file);
+
+				// Saves the edited file
+				xml.Save(file);
+
+				// Save Confirmation box
+				MessageBox.Show("File Saved");
+			}
+			catch (XmlException)
+			{
+				MessageBox.Show("XML Load Failure");
+			}
+		}
+
+		// Saves the new name of the card if it exists
+		private void SaveName(string file)
+		{
+			// NewFileBox must have a string in it to rename the card
+			if (NewFileBox.Text.Length >  0)
+			{
+				// Set the name node equal to the new name
+				xml.SelectSingleNode("/card/main/name").FirstChild.Value = NewFileBox.Text;
+			}
+		}
+
+		// Saves the new description of the card if it exists
+		private void SaveDesc(string file)
+		{
+			// NewDescriptionBox must have a string in it to change the card's description
+			if (NewDescriptionBox.Text.Length >  0)
+			{
+				// Set the description node equal to the new name
+				xml.SelectSingleNode("/card/main/description").FirstChild.Value = NewDescriptionBox.Text;
+			}
+		}
+
+		
+		// =========================================================
+		// =================== Helper Functions ====================
+		// =========================================================
+		
+		// Clears the current textboxes
+		private void ClearBoxes()
+		{
+			NewDescriptionBox.Text = "";
+			NewFileBox.Text        = "";
+		}
+
+		// Updates the names in the FileList
+		private void UpdateFileList()
+		{
+			// If our folder path exists (we have opened a folder)
+			if (folderPath.Length > 0)
+			{
+				// Create a list of the file names
+				List<string> names = new List<string>();
+
+				// Gets the name of each file and adds it to our list
+				foreach (string file in Directory.GetFiles(folderPath))
+				{
+					try
+					{
+						// Load and update list of names
+						xml.Load(file);
+						names.Add(xml.SelectSingleNode("/card/main/name").FirstChild.Value);
+					}
+					catch (XmlException)
+					{
+						names.Add("Empty/Broken Xml File");
+					}
+				}
+
+				// Save the new FileList
+				FileList.ItemsSource = names;
+			}
 		}
 	}
 }
