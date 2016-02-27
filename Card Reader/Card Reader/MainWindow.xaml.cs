@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
 using System.Xml;
+using System.Collections.ObjectModel;
 
 namespace Card_Reader
 {
@@ -26,9 +27,10 @@ namespace Card_Reader
 		// ======================= Variables =======================
 		// =========================================================
 		XmlDocument xml;
-		List<string> paths;
+		List<XmlNode> cards;
+		ObservableCollection<string> names;
+		XmlNode currentNode;
 		string currentPath = "";
-		string folderPath = "";
 
 		// =========================================================
 		// ==================== Event Handlers =====================
@@ -38,7 +40,9 @@ namespace Card_Reader
 		public MainWindow()
 		{
 			InitializeComponent();
-			xml = new XmlDocument();
+			xml   = new XmlDocument();
+			cards = new List<XmlNode>();
+			names = new ObservableCollection<string>();
 		}
 
 		// Select a file and open it
@@ -63,60 +67,6 @@ namespace Card_Reader
 			}
 		}
 
-		// Select a folder and load its contents into the file list
-		private void OpenFolder_Click(object sender, RoutedEventArgs e)
-		{
-			// Create FolderBrowserDialog
-			System.Windows.Forms.FolderBrowserDialog fobox = new System.Windows.Forms.FolderBrowserDialog();
-
-			// Save folder files
-			System.Windows.Forms.DialogResult result = fobox.ShowDialog();
-
-			// If they did not cancel or close the form
-			if (result != System.Windows.Forms.DialogResult.Cancel)
-			{
-				// Sets the FileList to display the files by their names (not paths)
-				// Key: name of card | Value: file path
-				List<string> names = new List<string>();
-				paths              = new List<string>();
-
-				// Save the folder path
-				folderPath = fobox.SelectedPath;
-
-				// Gets the name of each file and adds it to our list
-				foreach (string file in Directory.GetFiles(folderPath))
-				{
-					try
-					{
-						xml.Load(file);
-						names.Add(xml.SelectSingleNode("/card/main/name").FirstChild.Value);
-						paths.Add(file);
-					}
-					catch (XmlException)
-					{
-						names.Add("Empty/Broken Xml File");
-						paths.Add(file);
-					}
-				}
-
-				// Set the file list to display the names
-				// When we access the filelist via names, we access paths not names
-				FileList.ItemsSource = names;
-			}
-		}
-
-		// Selects a file from the FileList when it is double clicked on
-		private void FileList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-		{
-			// If they double clicked with the left mouse button
-			if (e.LeftButton == MouseButtonState.Pressed)
-			{
-				// Sets the CurrentFile's text to equal the current selected file
-				currentPath = paths[FileList.SelectedIndex];
-				LoadXml(currentPath);
-			}
-		}
-
 		// Saves the currently selected file
 		private void SaveFile_Click(object sender, RoutedEventArgs e)
 		{
@@ -126,10 +76,39 @@ namespace Card_Reader
 				// Saves the new xml document to the currently selected path
 				SaveXml(currentPath);
 
-				// We reload the same Xml so that the current data is wiped
+				// Clear Boxes, reload all of the data
 				LoadXml(currentPath);
-				UpdateFileList();
-				ClearBoxes();
+				
+				// Update the GUI
+				UpdateGUI();
+			}
+		}
+
+		// Saves the new card info
+		private void SaveCard_Click(object sender, RoutedEventArgs e)
+		{
+			if (currentPath.Length > 0)
+			{
+				// Saves the new card data into the xml deck
+				SaveCardXml(ref currentNode);
+
+				// Update the GUI
+				UpdateGUI();
+			}
+		}
+
+		// Selects a file from the FileList when it is double clicked on
+		private void CardList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+		{
+			// If they double clicked with the left mouse button
+			if (e.LeftButton == MouseButtonState.Pressed)
+			{
+				// Update the GUI
+				UpdateGUI();
+
+				// Sets the CurrentFile's text to equal the current selected file
+				currentNode = cards[CardList.SelectedIndex];
+				LoadCard(currentNode);
 			}
 		}
 
@@ -146,9 +125,19 @@ namespace Card_Reader
 				// Load the file
 				xml.Load(file);
 
-				// Displays the xml data
-				CurrentFile.Text           = GetName(file);
-				CurrentDescriptionBox.Text = GetDesc(file);
+				// Clear the card and names list
+				cards.Clear();
+				names.Clear();
+
+				// Loop through all of the cards
+				foreach (XmlNode xmln in xml.SelectNodes("/deck/card"))
+				{
+					cards.Add(xmln);
+					names.Add(GetName(xmln));
+				}
+
+				// Set the CardList equal to card's name source
+				CardList.ItemsSource = names;
 			}
 			catch (XmlException)
 			{
@@ -156,18 +145,33 @@ namespace Card_Reader
 			}
 		}
 
-		// Returns the name of the document
-		private string GetName(string file)
+		// Loads a single card and displays it on the screen
+		private void LoadCard(XmlNode xn)
 		{
-			// Select the name node's child value: return's the name
-			return xml.SelectSingleNode("/card/main/name").FirstChild.Value;
+			try
+			{
+				// Displays the xml data
+				CurrentFile.Text           = GetName(xn);
+				CurrentDescriptionBox.Text = GetDesc(xn);
+			}
+			catch (XmlException)
+			{
+				MessageBox.Show("XML Data Failure");
+			}
 		}
 
 		// Returns the name of the document
-		private string GetDesc(string file)
+		private string GetName(XmlNode xn)
+		{
+			// Select the name node's child value: return's the name
+			return xn.SelectSingleNode("./main/name").FirstChild.Value;
+		}
+
+		// Returns the name of the document
+		private string GetDesc(XmlNode xn)
 		{
 			// Select the name node's child value: return's the description
-			return xml.SelectSingleNode("/card/main/description").FirstChild.Value;
+			return xn.SelectSingleNode("./main/description").FirstChild.Value;
 		}
 
 		// Saves the entire XML Document
@@ -175,9 +179,14 @@ namespace Card_Reader
 		{
 			try
 			{
-				// Change values
-				SaveName(file);
-				SaveDesc(file);
+				// Clear Nodes
+				xml.SelectSingleNode("./deck").RemoveAll();
+
+				// Add our nodes back in
+				foreach (XmlNode xmln in cards)
+				{
+					xml.SelectSingleNode("./deck").AppendChild(xmln);
+				}
 
 				// Saves the edited file
 				xml.Save(file);
@@ -187,29 +196,47 @@ namespace Card_Reader
 			}
 			catch (XmlException)
 			{
-				MessageBox.Show("XML Load Failure");
+				MessageBox.Show("XML Save Failure");
+			}
+		}
+
+		// Saves a single card into the xml document
+		private void SaveCardXml(ref XmlNode xn)
+		{
+			try
+			{
+				// Saves the card data in the xml file
+				SaveName(ref xn);
+				SaveDesc(ref xn);
+			}
+			catch (XmlException)
+			{
+				MessageBox.Show("XML Data Save Failure");
 			}
 		}
 
 		// Saves the new name of the card if it exists
-		private void SaveName(string file)
+		private void SaveName(ref XmlNode xn)
 		{
 			// NewFileBox must have a string in it to rename the card
 			if (NewFileBox.Text.Length >  0)
 			{
 				// Set the name node equal to the new name
-				xml.SelectSingleNode("/card/main/name").FirstChild.Value = NewFileBox.Text;
+				xn.SelectSingleNode("./main/name").FirstChild.Value = NewFileBox.Text;
+
+				// Update the name of the file
+				names[CardList.SelectedIndex] = NewFileBox.Text;
 			}
 		}
 
 		// Saves the new description of the card if it exists
-		private void SaveDesc(string file)
+		private void SaveDesc(ref XmlNode xn)
 		{
 			// NewDescriptionBox must have a string in it to change the card's description
 			if (NewDescriptionBox.Text.Length >  0)
 			{
 				// Set the description node equal to the new name
-				xml.SelectSingleNode("/card/main/description").FirstChild.Value = NewDescriptionBox.Text;
+				xn.SelectSingleNode("./main/description").FirstChild.Value = NewDescriptionBox.Text;
 			}
 		}
 
@@ -218,6 +245,15 @@ namespace Card_Reader
 		// =================== Helper Functions ====================
 		// =========================================================
 		
+		// Updates certain GUI aspects
+		private void UpdateGUI()
+		{
+			ClearBoxes();
+			UpdateCardList();
+			CurrentFile.Text = "No Selection";
+			CurrentDescriptionBox.Text = "No Selection";
+		}
+
 		// Clears the current textboxes
 		private void ClearBoxes()
 		{
@@ -225,33 +261,10 @@ namespace Card_Reader
 			NewFileBox.Text        = "";
 		}
 
-		// Updates the names in the FileList
-		private void UpdateFileList()
+		// Updates the current names of the cards in the list
+		private void UpdateCardList()
 		{
-			// If our folder path exists (we have opened a folder)
-			if (folderPath.Length > 0)
-			{
-				// Create a list of the file names
-				List<string> names = new List<string>();
-
-				// Gets the name of each file and adds it to our list
-				foreach (string file in Directory.GetFiles(folderPath))
-				{
-					try
-					{
-						// Load and update list of names
-						xml.Load(file);
-						names.Add(xml.SelectSingleNode("/card/main/name").FirstChild.Value);
-					}
-					catch (XmlException)
-					{
-						names.Add("Empty/Broken Xml File");
-					}
-				}
-
-				// Save the new FileList
-				FileList.ItemsSource = names;
-			}
+			CardList.ItemsSource = names;
 		}
 	}
 }
