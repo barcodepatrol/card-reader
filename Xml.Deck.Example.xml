@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<deck>
+  <card>
+    <main>
+      <name>Card 1</name>
+      <description>Description 1</description>
+    </main>
+  </card>
+  <card>
+    <main>
+      <name>Card 02</name>
+      <description>Description 2</description>
+    </main>
+  </card>
+  <card>
+    <main>
+      <name>Card 3</name>
+      <description>Description 3</description>
+    </main>
+  </card>
+</deck>
