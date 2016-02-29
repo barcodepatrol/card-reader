@@ -97,6 +97,95 @@ namespace Card_Reader
 			}
 		}
 
+		// Creates a new xml file and selects it as the current file
+		private void AddDeck_Click(object sender, RoutedEventArgs e)
+		{
+			// Only works when a file is already loaded in and selected
+			if (currentPath != "")
+			{
+				try
+				{
+					// Create a new XmlDocument
+					XmlDocument newDeck = new XmlDocument();
+
+					// Load a deck node
+					newDeck.LoadXml("<deck></deck>");
+
+					// Save the data to a file and format the output
+					XmlTextWriter writer = new XmlTextWriter((Directory.GetParent(currentPath) + "//new_deck.xml"), Encoding.UTF8);
+					writer.Formatting    = Formatting.Indented;
+					newDeck.Save(writer);
+
+					// Close the file
+					writer.Close();
+
+					// Select and load the current deck
+					LoadXml(Directory.GetParent(currentPath) + "//new_deck.xml");
+				}
+				catch (XmlException)
+				{
+					MessageBox.Show("Unable to create new deck.");
+				}
+			}
+			else
+			{
+				MessageBox.Show("Please select a file first.");
+			}
+
+
+		}
+
+		// Creates a new XmlNode that is added to cards and to names
+		private void AddCard_Click(object sender, RoutedEventArgs e)
+		{
+			// We can only add cards if we already have an xml document open
+			if (currentPath != "")
+			{
+				try
+				{
+					// Create our new XmlNode
+					XmlNode newNode = xml.CreateNode("element", "card", "");
+			
+					// Create main, name, and description nodes
+					// name and desc must also have two Text nodes created for them
+					XmlNode main = xml.CreateNode("element", "main", "");
+					XmlNode name = xml.CreateNode("element", "name", "");
+					XmlNode desc = xml.CreateNode("element", "description", "");
+					XmlNode nameT = xml.CreateNode("text", "name", "");
+					XmlNode descT = xml.CreateNode("text", "description", "");
+
+					// Fill the nodes with default values
+					nameT.Value = "default";
+					descT.Value = "default";
+
+					// Add nodes to the card node
+					name.AppendChild(nameT);
+					desc.AppendChild(descT);
+					main.AppendChild(name);
+					main.AppendChild(desc);
+					newNode.AppendChild(main);
+
+					// Add this new card node to our XmlFile
+					xml.SelectSingleNode("./deck").AppendChild(newNode);
+
+					// Update our cards and names lists
+					cards.Add(newNode);
+					names.Add("default");
+			
+					// Finally update GUI to reflect new card
+					UpdateGUI();
+				}
+				catch (XmlException)
+				{
+					MessageBox.Show("Card Creation Failed!");
+				}
+			}
+			else
+			{
+				MessageBox.Show("Please select a file first.");
+			}
+		}
+
 		// Selects a file from the FileList when it is double clicked on
 		private void CardList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
 		{
