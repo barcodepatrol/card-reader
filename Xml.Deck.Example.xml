@@ -5,7 +5,7 @@
       <name>Card 1</name>
       <description>This card targets a player and lowers their users by 10.</description>
       <target>Target Others</target>
-      <attribute>Blank</attribute>
+      <attribute>Users</attribute>
       <amount>-10</amount>
     </main>
   </card>
