@@ -1,21 +1,21 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <deck>
   <card>
     <main>
       <name>Card 1</name>
-      <description>Description 1</description>
+      <description>This card targets a player and lowers their users by 10.</description>
+      <target>Target Others</target>
+      <attribute>Blank</attribute>
+      <amount>-10</amount>
     </main>
   </card>
   <card>
     <main>
-      <name>Card 02</name>
-      <description>Description 2</description>
-    </main>
-  </card>
-  <card>
-    <main>
-      <name>Card 3</name>
-      <description>Description 3</description>
+      <name>Card 2</name>
+      <description>Increase memes by 5.</description>
+      <target>Self Target</target>
+      <attribute>Memes</attribute>
+      <amount>5</amount>
     </main>
   </card>
 </deck>
