@@ -31,6 +31,7 @@ namespace Card_Reader
 		ObservableCollection<string> names;
 		XmlNode currentNode;
 		string currentPath = "";
+		string attribute = "No Attribute Change";
 
 		// =========================================================
 		// ==================== Event Handlers =====================
@@ -61,7 +62,7 @@ namespace Card_Reader
 			// Process open file dialog box results
 			if (result == true)
 			{
-				// Open document
+				// Load document
 				currentPath = fibox.FileName;
 				LoadXml(currentPath);
 			}
@@ -146,23 +147,38 @@ namespace Card_Reader
 					// Create our new XmlNode
 					XmlNode newNode = xml.CreateNode("element", "card", "");
 			
-					// Create main, name, and description nodes
-					// name and desc must also have two Text nodes created for them
+					// Create main, name, description nodes
+					// Every element node needs a text node as well (denoted with capital T)
 					XmlNode main = xml.CreateNode("element", "main", "");
 					XmlNode name = xml.CreateNode("element", "name", "");
 					XmlNode desc = xml.CreateNode("element", "description", "");
+					XmlNode targ = xml.CreateNode("element", "target", "");
+					XmlNode atrb = xml.CreateNode("element", "attribute", "");
+					XmlNode atra = xml.CreateNode("element", "amount", "");
 					XmlNode nameT = xml.CreateNode("text", "name", "");
 					XmlNode descT = xml.CreateNode("text", "description", "");
+					XmlNode targT = xml.CreateNode("text", "target", "");
+					XmlNode atrbT = xml.CreateNode("text", "attribute", "");
+					XmlNode atraT = xml.CreateNode("text", "amount", "");
 
 					// Fill the nodes with default values
 					nameT.Value = "default";
 					descT.Value = "default";
+					targT.Value = "default";
+					atrbT.Value = "default";
+					atraT.Value = "0";
 
 					// Add nodes to the card node
 					name.AppendChild(nameT);
 					desc.AppendChild(descT);
+					targ.AppendChild(targT);
+					atrb.AppendChild(atrbT);
+					atra.AppendChild(atraT);
 					main.AppendChild(name);
 					main.AppendChild(desc);
+					main.AppendChild(targ);
+					main.AppendChild(atrb);
+					main.AppendChild(atra);
 					newNode.AppendChild(main);
 
 					// Add this new card node to our XmlFile
@@ -201,6 +217,16 @@ namespace Card_Reader
 			}
 		}
 
+		// Saves a string based off of the selected attribute
+		private void MenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			// Save the sending menu item
+			MenuItem mitem = (MenuItem)sender;
+
+			// Save the item's name as the selected attribute
+			attribute = mitem.Header.ToString();
+		}
+
 
 		// =========================================================
 		// ===================== XML Functions =====================
@@ -213,6 +239,9 @@ namespace Card_Reader
 			{
 				// Load the file
 				xml.Load(file);
+
+				// Set the deck (file) name
+				CurrentDeck.Text = System.IO.Path.GetFileNameWithoutExtension(file);
 
 				// Clear the card and names list
 				cards.Clear();
@@ -240,8 +269,9 @@ namespace Card_Reader
 			try
 			{
 				// Displays the xml data
-				CurrentFile.Text           = GetName(xn);
+				CurrentCard.Text           = GetName(xn);
 				CurrentDescriptionBox.Text = GetDesc(xn);
+				OldAttributeBox.Text	   = GetAtra(xn);
 			}
 			catch (XmlException)
 			{
@@ -256,11 +286,32 @@ namespace Card_Reader
 			return xn.SelectSingleNode("./main/name").FirstChild.Value;
 		}
 
-		// Returns the name of the document
+		// Returns the description of the document
 		private string GetDesc(XmlNode xn)
 		{
 			// Select the name node's child value: return's the description
 			return xn.SelectSingleNode("./main/description").FirstChild.Value;
+		}
+
+		// Returns the target of the object
+		private string GetTarg(XmlNode xn)
+		{
+			// Select the name node's child value: return's the description
+			return xn.SelectSingleNode("./main/target").FirstChild.Value;
+		}
+
+		// Returns the attribute of the object
+		private string GetAtrb(XmlNode xn)
+		{
+			// Select the name node's child value: return's the description
+			return xn.SelectSingleNode("./main/attribute").FirstChild.Value;
+		}
+
+		// Returns the attribute amount of the object
+		private string GetAtra(XmlNode xn)
+		{
+			// Select the name node's child value: return's the description
+			return xn.SelectSingleNode("./main/amount").FirstChild.Value;
 		}
 
 		// Saves the entire XML Document
@@ -280,12 +331,52 @@ namespace Card_Reader
 				// Saves the edited file
 				xml.Save(file);
 
+				// Rename the file if the user entered new deck name
+				RenameFile();
+
 				// Save Confirmation box
 				MessageBox.Show("File Saved");
 			}
 			catch (XmlException)
 			{
 				MessageBox.Show("XML Save Failure");
+			}
+		}
+
+		// Renames the file to the new name if provided
+		private void RenameFile()
+		{
+			// First check if we are given a new name
+			if (NewDeckBox.Text != "")
+			{
+				try
+				{
+					// Save the current directory path
+					string curDir = System.IO.Path.GetDirectoryName(currentPath);
+
+					// For each file in our current directory...
+					foreach (string file in Directory.GetFiles(curDir))
+					{
+						// ...make sure we don't have a file with that name already
+						if (File.Exists(curDir + "//" + NewDeckBox.Text + ".xml"))
+						{
+							MessageBox.Show("File with that name already exists. No changes made to name.");
+							return;
+						}
+					}
+
+					// If we haven't returned, then the name is good
+					// Rename the file to the new deck name
+					File.Copy(currentPath, curDir + "//" + NewDeckBox.Text + ".xml");
+					currentPath = curDir + "//" + NewDeckBox.Text + ".xml";
+
+					// Clear the deck name box
+					NewDeckBox.Text = "";
+				}
+				catch (IOException)
+				{
+					MessageBox.Show("IO Exception");
+				}
 			}
 		}
 
@@ -297,6 +388,9 @@ namespace Card_Reader
 				// Saves the card data in the xml file
 				SaveName(ref xn);
 				SaveDesc(ref xn);
+				SaveTarg(ref xn);
+				SaveAtrb(ref xn);
+				SaveAtra(ref xn);
 			}
 			catch (XmlException)
 			{
@@ -308,13 +402,13 @@ namespace Card_Reader
 		private void SaveName(ref XmlNode xn)
 		{
 			// NewFileBox must have a string in it to rename the card
-			if (NewFileBox.Text.Length >  0)
+			if (NewCardBox.Text.Length >  0)
 			{
 				// Set the name node equal to the new name
-				xn.SelectSingleNode("./main/name").FirstChild.Value = NewFileBox.Text;
+				xn.SelectSingleNode("./main/name").FirstChild.Value = NewCardBox.Text;
 
 				// Update the name of the file
-				names[CardList.SelectedIndex] = NewFileBox.Text;
+				names[CardList.SelectedIndex] = NewCardBox.Text;
 			}
 		}
 
@@ -329,6 +423,45 @@ namespace Card_Reader
 			}
 		}
 
+		// Saves the new target of the card if it exists
+		private void SaveTarg(ref XmlNode xn)
+		{
+			// If no target is selected
+			if (RB_NoTarget.IsChecked == true)
+			{
+				// Save target as "No Target"
+				xn.SelectSingleNode("./main/target").FirstChild.Value = "No Target";
+			}
+			if (RB_SelfTarget.IsChecked == true)
+			{
+				// Save target as "Self Target"
+				xn.SelectSingleNode("./main/target").FirstChild.Value = "Self Target";
+			}
+			if (RB_TargetOthers.IsChecked == true)
+			{
+				// Save target as "Target Others"
+				xn.SelectSingleNode("./main/target").FirstChild.Value = "Target Others";
+			}
+		}
+
+		// Saves the new attribute of the card if it exists
+		private void SaveAtrb(ref XmlNode xn)
+		{
+			// Selects and saves the attribute currently stored in the program
+			xn.SelectSingleNode("./main/attribute").FirstChild.Value = attribute;
+		}
+
+		// Saves the new attribute amount of the card if it exists
+		private void SaveAtra(ref XmlNode xn)
+		{
+			// NewDescriptionBox must have a string in it to change the card's description
+			if (AttributeChangeBox.Text.Length >  0)
+			{
+				// Set the description node equal to the new name
+				xn.SelectSingleNode("./main/amount").FirstChild.Value = AttributeChangeBox.Text;
+			}
+		}
+
 		
 		// =========================================================
 		// =================== Helper Functions ====================
@@ -339,7 +472,7 @@ namespace Card_Reader
 		{
 			ClearBoxes();
 			UpdateCardList();
-			CurrentFile.Text = "No Selection";
+			CurrentCard.Text = "No Selection";
 			CurrentDescriptionBox.Text = "No Selection";
 		}
 
@@ -347,7 +480,7 @@ namespace Card_Reader
 		private void ClearBoxes()
 		{
 			NewDescriptionBox.Text = "";
-			NewFileBox.Text        = "";
+			NewCardBox.Text        = "";
 		}
 
 		// Updates the current names of the cards in the list
