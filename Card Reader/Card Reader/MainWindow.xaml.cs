@@ -147,9 +147,8 @@ namespace Card_Reader
 					// Create our new XmlNode
 					XmlNode newNode = xml.CreateNode("element", "card", "");
 			
-					// Create main, name, description nodes
+					// Create name, description, target, attribute, and amount nodes
 					// Every element node needs a text node as well (denoted with capital T)
-					XmlNode main = xml.CreateNode("element", "main", "");
 					XmlNode name = xml.CreateNode("element", "name", "");
 					XmlNode desc = xml.CreateNode("element", "description", "");
 					XmlNode targ = xml.CreateNode("element", "target", "");
@@ -174,12 +173,11 @@ namespace Card_Reader
 					targ.AppendChild(targT);
 					atrb.AppendChild(atrbT);
 					atra.AppendChild(atraT);
-					main.AppendChild(name);
-					main.AppendChild(desc);
-					main.AppendChild(targ);
-					main.AppendChild(atrb);
-					main.AppendChild(atra);
-					newNode.AppendChild(main);
+					newNode.AppendChild(name);
+					newNode.AppendChild(desc);
+					newNode.AppendChild(targ);
+					newNode.AppendChild(atrb);
+					newNode.AppendChild(atra);
 
 					// Add this new card node to our XmlFile
 					xml.SelectSingleNode("./deck").AppendChild(newNode);
@@ -283,35 +281,35 @@ namespace Card_Reader
 		private string GetName(XmlNode xn)
 		{
 			// Select the name node's child value: return's the name
-			return xn.SelectSingleNode("./main/name").FirstChild.Value;
+			return xn.SelectSingleNode("./name").FirstChild.Value;
 		}
 
 		// Returns the description of the document
 		private string GetDesc(XmlNode xn)
 		{
 			// Select the name node's child value: return's the description
-			return xn.SelectSingleNode("./main/description").FirstChild.Value;
+			return xn.SelectSingleNode("./description").FirstChild.Value;
 		}
 
 		// Returns the target of the object
 		private string GetTarg(XmlNode xn)
 		{
 			// Select the name node's child value: return's the description
-			return xn.SelectSingleNode("./main/target").FirstChild.Value;
+			return xn.SelectSingleNode("./target").FirstChild.Value;
 		}
 
 		// Returns the attribute of the object
 		private string GetAtrb(XmlNode xn)
 		{
 			// Select the name node's child value: return's the description
-			return xn.SelectSingleNode("./main/attribute").FirstChild.Value;
+			return xn.SelectSingleNode("./attribute").FirstChild.Value;
 		}
 
 		// Returns the attribute amount of the object
 		private string GetAtra(XmlNode xn)
 		{
 			// Select the name node's child value: return's the description
-			return xn.SelectSingleNode("./main/amount").FirstChild.Value;
+			return xn.SelectSingleNode("./amount").FirstChild.Value;
 		}
 
 		// Saves the entire XML Document
@@ -405,7 +403,7 @@ namespace Card_Reader
 			if (NewCardBox.Text.Length >  0)
 			{
 				// Set the name node equal to the new name
-				xn.SelectSingleNode("./main/name").FirstChild.Value = NewCardBox.Text;
+				xn.SelectSingleNode("./name").FirstChild.Value = NewCardBox.Text;
 
 				// Update the name of the file
 				names[CardList.SelectedIndex] = NewCardBox.Text;
@@ -419,7 +417,7 @@ namespace Card_Reader
 			if (NewDescriptionBox.Text.Length >  0)
 			{
 				// Set the description node equal to the new name
-				xn.SelectSingleNode("./main/description").FirstChild.Value = NewDescriptionBox.Text;
+				xn.SelectSingleNode("./description").FirstChild.Value = NewDescriptionBox.Text;
 			}
 		}
 
@@ -430,17 +428,17 @@ namespace Card_Reader
 			if (RB_NoTarget.IsChecked == true)
 			{
 				// Save target as "No Target"
-				xn.SelectSingleNode("./main/target").FirstChild.Value = "No Target";
+				xn.SelectSingleNode("./target").FirstChild.Value = "No Target";
 			}
 			if (RB_SelfTarget.IsChecked == true)
 			{
 				// Save target as "Self Target"
-				xn.SelectSingleNode("./main/target").FirstChild.Value = "Self Target";
+				xn.SelectSingleNode("./target").FirstChild.Value = "Self Target";
 			}
 			if (RB_TargetOthers.IsChecked == true)
 			{
 				// Save target as "Target Others"
-				xn.SelectSingleNode("./main/target").FirstChild.Value = "Target Others";
+				xn.SelectSingleNode("./target").FirstChild.Value = "Target Others";
 			}
 		}
 
@@ -448,7 +446,7 @@ namespace Card_Reader
 		private void SaveAtrb(ref XmlNode xn)
 		{
 			// Selects and saves the attribute currently stored in the program
-			xn.SelectSingleNode("./main/attribute").FirstChild.Value = attribute;
+			xn.SelectSingleNode("./attribute").FirstChild.Value = attribute;
 		}
 
 		// Saves the new attribute amount of the card if it exists
@@ -458,7 +456,7 @@ namespace Card_Reader
 			if (AttributeChangeBox.Text.Length >  0)
 			{
 				// Set the description node equal to the new name
-				xn.SelectSingleNode("./main/amount").FirstChild.Value = AttributeChangeBox.Text;
+				xn.SelectSingleNode("./amount").FirstChild.Value = AttributeChangeBox.Text;
 			}
 		}
 
@@ -479,8 +477,9 @@ namespace Card_Reader
 		// Clears the current textboxes
 		private void ClearBoxes()
 		{
-			NewDescriptionBox.Text = "";
-			NewCardBox.Text        = "";
+			NewDescriptionBox.Text  = "";
+			NewCardBox.Text         = "";
+			AttributeChangeBox.Text = "";
 		}
 
 		// Updates the current names of the cards in the list
