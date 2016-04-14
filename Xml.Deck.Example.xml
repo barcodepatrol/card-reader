@@ -6,6 +6,7 @@
       <target>Target Others</target>
       <attribute>Users</attribute>
       <amount>-10</amount>
+      <cost>500</cost>
   </card>
   <card>
       <name>Card 2</name>
@@ -13,5 +14,6 @@
       <target>Self Target</target>
       <attribute>Memes</attribute>
       <amount>5</amount>
+      <cost>500</cost>
   </card>
 </deck>
