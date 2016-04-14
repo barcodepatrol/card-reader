@@ -147,18 +147,20 @@ namespace Card_Reader
 					// Create our new XmlNode
 					XmlNode newNode = xml.CreateNode("element", "card", "");
 			
-					// Create name, description, target, attribute, and amount nodes
+					// Create name, description, target, attribute, amount, and cost nodes
 					// Every element node needs a text node as well (denoted with capital T)
 					XmlNode name = xml.CreateNode("element", "name", "");
 					XmlNode desc = xml.CreateNode("element", "description", "");
 					XmlNode targ = xml.CreateNode("element", "target", "");
 					XmlNode atrb = xml.CreateNode("element", "attribute", "");
 					XmlNode atra = xml.CreateNode("element", "amount", "");
+					XmlNode cost = xml.CreateNode("element", "money", "");
 					XmlNode nameT = xml.CreateNode("text", "name", "");
 					XmlNode descT = xml.CreateNode("text", "description", "");
 					XmlNode targT = xml.CreateNode("text", "target", "");
 					XmlNode atrbT = xml.CreateNode("text", "attribute", "");
 					XmlNode atraT = xml.CreateNode("text", "amount", "");
+					XmlNode costT = xml.CreateNode("text", "cost", "");
 
 					// Fill the nodes with default values
 					nameT.Value = "default";
@@ -166,6 +168,7 @@ namespace Card_Reader
 					targT.Value = "default";
 					atrbT.Value = "default";
 					atraT.Value = "0";
+					costT.Value = "0";
 
 					// Add nodes to the card node
 					name.AppendChild(nameT);
@@ -173,11 +176,13 @@ namespace Card_Reader
 					targ.AppendChild(targT);
 					atrb.AppendChild(atrbT);
 					atra.AppendChild(atraT);
+					cost.AppendChild(costT);
 					newNode.AppendChild(name);
 					newNode.AppendChild(desc);
 					newNode.AppendChild(targ);
 					newNode.AppendChild(atrb);
 					newNode.AppendChild(atra);
+					newNode.AppendChild(cost);
 
 					// Add this new card node to our XmlFile
 					xml.SelectSingleNode("./deck").AppendChild(newNode);
@@ -198,6 +203,22 @@ namespace Card_Reader
 			{
 				MessageBox.Show("Please select a file first.");
 			}
+		}
+
+		// Displays a messagebox with the instructions
+		private void Instructions_Click(object sender, RoutedEventArgs e)
+		{
+			MessageBox.Show("Instructions:\n\n" +
+							"First, open a file.\n" +
+							"After this is done, you can:\n" +
+							"1) Select, edit, and add cards\n" + 
+							"2) Add and edit decks\n" +
+							"3) Save files to the same directory as the original file\n" +
+							"\nHow to edit a Card:\n" +
+							"You can change a card's name, description, target, attribute and\n" +
+							"the amount you want the card to change by. Simply select the correct\n" +
+							"boxes, radio buttons, or menu selection items to change these values."
+							);
 		}
 
 		// Selects a file from the FileList when it is double clicked on
@@ -270,6 +291,7 @@ namespace Card_Reader
 				CurrentCard.Text           = GetName(xn);
 				CurrentDescriptionBox.Text = GetDesc(xn);
 				OldAttributeBox.Text	   = GetAtra(xn);
+				OldMoneyBox.Text		   = GetCost(xn);
 			}
 			catch (XmlException)
 			{
@@ -287,29 +309,36 @@ namespace Card_Reader
 		// Returns the description of the document
 		private string GetDesc(XmlNode xn)
 		{
-			// Select the name node's child value: return's the description
+			// Select the description node's child value: return's the description
 			return xn.SelectSingleNode("./description").FirstChild.Value;
 		}
 
 		// Returns the target of the object
 		private string GetTarg(XmlNode xn)
 		{
-			// Select the name node's child value: return's the description
+			// Select the target node's child value: return's the target
 			return xn.SelectSingleNode("./target").FirstChild.Value;
 		}
 
 		// Returns the attribute of the object
 		private string GetAtrb(XmlNode xn)
 		{
-			// Select the name node's child value: return's the description
+			// Select the attribute node's child value: return's the attribute
 			return xn.SelectSingleNode("./attribute").FirstChild.Value;
 		}
 
 		// Returns the attribute amount of the object
 		private string GetAtra(XmlNode xn)
 		{
-			// Select the name node's child value: return's the description
+			// Select the amount node's child value: return's the amount
 			return xn.SelectSingleNode("./amount").FirstChild.Value;
+		}
+
+		// Returns the cost amount of the object
+		private string GetCost(XmlNode xn)
+		{
+			// Select the cost node's child value: return's the cost
+			return xn.SelectSingleNode("./cost").FirstChild.Value;
 		}
 
 		// Saves the entire XML Document
@@ -389,6 +418,7 @@ namespace Card_Reader
 				SaveTarg(ref xn);
 				SaveAtrb(ref xn);
 				SaveAtra(ref xn);
+				SaveCost(ref xn);
 			}
 			catch (XmlException)
 			{
@@ -416,7 +446,7 @@ namespace Card_Reader
 			// NewDescriptionBox must have a string in it to change the card's description
 			if (NewDescriptionBox.Text.Length >  0)
 			{
-				// Set the description node equal to the new name
+				// Set the description node equal to the new description
 				xn.SelectSingleNode("./description").FirstChild.Value = NewDescriptionBox.Text;
 			}
 		}
@@ -430,11 +460,13 @@ namespace Card_Reader
 				// Save target as "No Target"
 				xn.SelectSingleNode("./target").FirstChild.Value = "No Target";
 			}
+			// If it targets the current player
 			if (RB_SelfTarget.IsChecked == true)
 			{
 				// Save target as "Self Target"
 				xn.SelectSingleNode("./target").FirstChild.Value = "Self Target";
 			}
+			// If it targets others
 			if (RB_TargetOthers.IsChecked == true)
 			{
 				// Save target as "Target Others"
@@ -452,11 +484,22 @@ namespace Card_Reader
 		// Saves the new attribute amount of the card if it exists
 		private void SaveAtra(ref XmlNode xn)
 		{
-			// NewDescriptionBox must have a string in it to change the card's description
+			// AttributeChangeBox must have a string in it to change the card's attribute
 			if (AttributeChangeBox.Text.Length >  0)
 			{
-				// Set the description node equal to the new name
+				// Set the amount node equal to the new attribute
 				xn.SelectSingleNode("./amount").FirstChild.Value = AttributeChangeBox.Text;
+			}
+		}
+
+		// Saves the new cost amount of the card if it exists
+		private void SaveCost(ref XmlNode xn)
+		{
+			// CostChangeBox must have a string in it to change the card's cost value
+			if (CostChangeBox.Text.Length >  0)
+			{
+				// Set the description node equal to the new name
+				xn.SelectSingleNode("./cost").FirstChild.Value = CostChangeBox.Text;
 			}
 		}
 
@@ -470,8 +513,10 @@ namespace Card_Reader
 		{
 			ClearBoxes();
 			UpdateCardList();
-			CurrentCard.Text = "No Selection";
+			CurrentCard.Text           = "No Selection";
 			CurrentDescriptionBox.Text = "No Selection";
+			AttributeChangeBox.Text    = "";
+			CostChangeBox.Text         = "";
 		}
 
 		// Clears the current textboxes
@@ -480,6 +525,7 @@ namespace Card_Reader
 			NewDescriptionBox.Text  = "";
 			NewCardBox.Text         = "";
 			AttributeChangeBox.Text = "";
+			CostChangeBox.Text      = "";
 		}
 
 		// Updates the current names of the cards in the list
@@ -487,5 +533,6 @@ namespace Card_Reader
 		{
 			CardList.ItemsSource = names;
 		}
+
 	}
 }
