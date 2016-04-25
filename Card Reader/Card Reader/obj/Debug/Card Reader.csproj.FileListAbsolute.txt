@@ -1,0 +1,14 @@
+D:\Projects\Git Libraries\Repos\card-reader\Card Reader\Card Reader\bin\Debug\Card Reader.exe.config
+D:\Projects\Git Libraries\Repos\card-reader\Card Reader\Card Reader\bin\Debug\Card Reader.exe
+D:\Projects\Git Libraries\Repos\card-reader\Card Reader\Card Reader\bin\Debug\Card Reader.pdb
+D:\Projects\Git Libraries\Repos\card-reader\Card Reader\Card Reader\obj\Debug\Card Reader.csprojResolveAssemblyReference.cache
+D:\Projects\Git Libraries\Repos\card-reader\Card Reader\Card Reader\obj\Debug\MainWindow.g.cs
+D:\Projects\Git Libraries\Repos\card-reader\Card Reader\Card Reader\obj\Debug\App.g.cs
+D:\Projects\Git Libraries\Repos\card-reader\Card Reader\Card Reader\obj\Debug\Card Reader_MarkupCompile.cache
+D:\Projects\Git Libraries\Repos\card-reader\Card Reader\Card Reader\obj\Debug\Card Reader_MarkupCompile.lref
+D:\Projects\Git Libraries\Repos\card-reader\Card Reader\Card Reader\obj\Debug\MainWindow.baml
+D:\Projects\Git Libraries\Repos\card-reader\Card Reader\Card Reader\obj\Debug\Card Reader.g.resources
+D:\Projects\Git Libraries\Repos\card-reader\Card Reader\Card Reader\obj\Debug\Card_Reader.Properties.Resources.resources
+D:\Projects\Git Libraries\Repos\card-reader\Card Reader\Card Reader\obj\Debug\Card Reader.csproj.GenerateResource.Cache
+D:\Projects\Git Libraries\Repos\card-reader\Card Reader\Card Reader\obj\Debug\Card Reader.exe
+D:\Projects\Git Libraries\Repos\card-reader\Card Reader\Card Reader\obj\Debug\Card Reader.pdb

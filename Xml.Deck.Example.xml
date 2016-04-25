@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <deck>
   <card>
     <main>
@@ -16,6 +16,15 @@
       <target>Self Target</target>
       <attribute>Memes</attribute>
       <amount>5</amount>
+    </main>
+  </card>
+  <card>
+    <main>
+      <name>Card 3</name>
+      <description>Add 10 monies.</description>
+      <target>Self Target</target>
+      <attribute>Money</attribute>
+      <amount>10</amount>
     </main>
   </card>
 </deck>
