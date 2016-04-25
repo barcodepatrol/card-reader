@@ -6,45 +6,52 @@
         xmlns:local="clr-namespace:Card_Reader"
         mc:Ignorable="d"
         Title="Card Reader" Height="520" Width="680" Background="#FF111111" Foreground="White">
-	<Grid>
-		<Button x:Name="OpenFile" Content="Open File" HorizontalAlignment="Left" Margin="38,20,0,0" VerticalAlignment="Top" Width="75" Foreground="#FFDDDDDD" Background="#FF272727" Click="OpenFile_Click"/>
-		<Button x:Name="SaveFile" Content="Save File" HorizontalAlignment="Left" Margin="38,57,0,0" VerticalAlignment="Top" Width="75" Foreground="#FFDDDDDD" Background="#FF272727" Click="SaveFile_Click"/>
-		<Button x:Name="SaveCard" Content="Save Card" HorizontalAlignment="Left" Margin="38,95,0,0" VerticalAlignment="Top" Width="75" Foreground="#FFDDDDDD" Background="#FF272727" Click="SaveCard_Click"/>
-		<Button x:Name="AddDeck" Content="Add Deck" HorizontalAlignment="Left" Margin="38,135,0,0" VerticalAlignment="Top" Width="75" Foreground="#FFDDDDDD" Background="#FF272727" Click="AddDeck_Click"/>
-		<Button x:Name="AddCard" Content="Add Card" HorizontalAlignment="Left" Margin="38,175,0,0" VerticalAlignment="Top" Width="75" Foreground="#FFDDDDDD" Background="#FF272727" Click="AddCard_Click"/>
+    <Grid>
+        <Button x:Name="OpenFile" Content="Open File" HorizontalAlignment="Left" Margin="38,20,0,0" VerticalAlignment="Top" Width="75" Foreground="#FFDDDDDD" Background="#FF272727" Click="OpenFile_Click"/>
+        <Button x:Name="SaveFile" Content="Save File" HorizontalAlignment="Left" Margin="38,57,0,0" VerticalAlignment="Top" Width="75" Foreground="#FFDDDDDD" Background="#FF272727" Click="SaveFile_Click"/>
+        <Button x:Name="SaveCard" Content="Save Card" HorizontalAlignment="Left" Margin="38,95,0,0" VerticalAlignment="Top" Width="75" Foreground="#FFDDDDDD" Background="#FF272727" Click="SaveCard_Click"/>
+        <Button x:Name="AddDeck" Content="Add Deck" HorizontalAlignment="Left" Margin="38,135,0,0" VerticalAlignment="Top" Width="75" Foreground="#FFDDDDDD" Background="#FF272727" Click="AddDeck_Click"/>
+        <Button x:Name="AddCard" Content="Add Card" HorizontalAlignment="Left" Margin="38,175,0,0" VerticalAlignment="Top" Width="75" Foreground="#FFDDDDDD" Background="#FF272727" Click="AddCard_Click"/>
+        <Button x:Name="Instructions" Content="Instructions" HorizontalAlignment="Left" Margin="143,175,0,0" VerticalAlignment="Top" Width="175" Foreground="#FFDDDDDD" Background="#FF272727" Click="Instructions_Click" Height="39"/>
 
-		<Label x:Name="CardListLabel" Content="Card List" HorizontalAlignment="Left" Margin="38,211,0,0" VerticalAlignment="Top" Foreground="#FFDDDDDD" Height="24"/>
-		<ListBox x:Name="CardList" HorizontalAlignment="Left" Height="215" Margin="38,240,0,0" VerticalAlignment="Top" Width="280" Background="#FF272727" Foreground="#FFDDDDDD" MouseDoubleClick="CardList_MouseDoubleClick"/>
+        <Label x:Name="CardListLabel" Content="Card List" HorizontalAlignment="Left" Margin="38,211,0,0" VerticalAlignment="Top" Foreground="#FFDDDDDD" Height="24"/>
+        <ListBox x:Name="CardList" HorizontalAlignment="Left" Height="215" Margin="38,240,0,0" VerticalAlignment="Top" Width="280" Background="#FF272727" Foreground="#FFDDDDDD" MouseDoubleClick="CardList_MouseDoubleClick"/>
 
-		<Label x:Name="CurrentDeckLabel" Content="Current Deck:" HorizontalAlignment="Left" Margin="143,17,0,0" VerticalAlignment="Top" Foreground="#FFCBCBCB"/>
-		<TextBlock x:Name="CurrentDeck" HorizontalAlignment="Left" Margin="222,22,0,0" TextWrapping="Wrap" Text="No Deck" VerticalAlignment="Top" Foreground="White" OpacityMask="Black" FontWeight="Bold"/>
-		<Label x:Name="NewDeckLabel" Content="New Deck Name:" HorizontalAlignment="Left" Margin="123,54,0,0" VerticalAlignment="Top" Foreground="#FFCBCBCB"/>
-		<TextBox x:Name="NewDeckBox" HorizontalAlignment="Left" Height="23" Margin="222,57,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="96" Foreground="#FFDDDDDD" Background="#FF272727"/>
-		<Label x:Name="CurrentCardLabel" Content="Current Card:" HorizontalAlignment="Left" Margin="143,95,0,0" VerticalAlignment="Top" Foreground="#FFCBCBCB"/>
-		<TextBlock x:Name="CurrentCard" HorizontalAlignment="Left" Margin="222,100,0,0" TextWrapping="Wrap" Text="No Card" VerticalAlignment="Top" Foreground="White" OpacityMask="Black" FontWeight="Bold"/>
-		<Label x:Name="NewCardLabel" Content="New Card Name:" HorizontalAlignment="Left" Margin="123,132,0,0" VerticalAlignment="Top" Foreground="#FFCBCBCB"/>
-		<TextBox x:Name="NewCardBox" HorizontalAlignment="Left" Height="23" Margin="222,135,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="96" Foreground="#FFDDDDDD" Background="#FF272727"/>
+        <Label x:Name="CurrentDeckLabel" Content="Current Deck:" HorizontalAlignment="Left" Margin="143,17,0,0" VerticalAlignment="Top" Foreground="#FFCBCBCB"/>
+        <TextBlock x:Name="CurrentDeck" HorizontalAlignment="Left" Margin="222,22,0,0" TextWrapping="Wrap" Text="No Deck" VerticalAlignment="Top" Foreground="White" OpacityMask="Black" FontWeight="Bold"/>
+        <Label x:Name="NewDeckLabel" Content="New Deck Name:" HorizontalAlignment="Left" Margin="123,54,0,0" VerticalAlignment="Top" Foreground="#FFCBCBCB"/>
+        <TextBox x:Name="NewDeckBox" HorizontalAlignment="Left" Height="23" Margin="222,57,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="96" Foreground="#FFDDDDDD" Background="#FF272727"/>
+        <Label x:Name="CurrentCardLabel" Content="Current Card:" HorizontalAlignment="Left" Margin="143,95,0,0" VerticalAlignment="Top" Foreground="#FFCBCBCB"/>
+        <TextBlock x:Name="CurrentCard" HorizontalAlignment="Left" Margin="222,100,0,0" TextWrapping="Wrap" Text="No Card" VerticalAlignment="Top" Foreground="White" OpacityMask="Black" FontWeight="Bold"/>
+        <Label x:Name="NewCardLabel" Content="New Card Name:" HorizontalAlignment="Left" Margin="123,132,0,0" VerticalAlignment="Top" Foreground="#FFCBCBCB"/>
+        <TextBox x:Name="NewCardBox" HorizontalAlignment="Left" Height="23" Margin="222,135,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="96" Foreground="#FFDDDDDD" Background="#FF272727"/>
 
-		<Label x:Name="CurrentDescriptionLabel" Content="Current Description" HorizontalAlignment="Left" Margin="364,158,0,0" VerticalAlignment="Top" Foreground="#FFDDDDDD"/>
-		<TextBox x:Name="CurrentDescriptionBox" HorizontalAlignment="Left" Height="115" Margin="364,189,0,0" TextWrapping="Wrap" Text="Description" VerticalAlignment="Top" Width="274" Background="#FF272727" Foreground="#FFDDDDDD" IsReadOnly="True"/>
-		<Label x:Name="NewDescriptionLabel" Content="New Description" HorizontalAlignment="Left" Margin="364,309,0,0" VerticalAlignment="Top" Foreground="#FFDDDDDD"/>
-		<TextBox x:Name="NewDescriptionBox" HorizontalAlignment="Left" Height="115" Margin="364,340,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="274" Background="#FF272727" Foreground="#FFDDDDDD"/>
-		<RadioButton x:Name="RB_NoTarget" Content="No Target" HorizontalAlignment="Left" Margin="364,20,0,0" VerticalAlignment="Top" Foreground="#FFDDDDDD" Background="#FF272727" IsChecked="True"/>
-		<RadioButton x:Name="RB_SelfTarget" Content="Self Target" HorizontalAlignment="Left" Margin="364,62,0,0" VerticalAlignment="Top" Foreground="#FFDDDDDD" Background="#FF272727"/>
-		<RadioButton x:Name="RB_TargetOthers" Content="Target Others" HorizontalAlignment="Left" Margin="364,106,0,0" VerticalAlignment="Top" Foreground="#FFDDDDDD" Background="#FF272727"/>
-		<Label x:Name="OldAttributeLabel" Content="Old Attribute:" HorizontalAlignment="Left" Margin="482,65,0,0" VerticalAlignment="Top" Foreground="#FFDDDDDD"/>
-		<TextBox x:Name="OldAttributeBox" HorizontalAlignment="Left" Height="22" Margin="590,69,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="48" Foreground="#FFDDDDDD" Background="#FF272727" IsReadOnly="True"/>
-		<Label x:Name="AttributeChangeLabel" Content="Attribute Change:" HorizontalAlignment="Left" Margin="482,102,0,0" VerticalAlignment="Top" Foreground="#FFDDDDDD"/>
-		<TextBox x:Name="AttributeChangeBox" HorizontalAlignment="Left" Height="22" Margin="590,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="48" Foreground="#FFDDDDDD" Background="#FF272727"/>
+        <Label x:Name="CurrentDescriptionLabel" Content="Current Description" HorizontalAlignment="Left" Margin="364,217,0,0" VerticalAlignment="Top" Foreground="#FFDDDDDD"/>
+        <TextBox x:Name="CurrentDescriptionBox" HorizontalAlignment="Left" Height="81" Margin="364,248,0,0" TextWrapping="Wrap" Text="Description" VerticalAlignment="Top" Width="274" Background="#FF272727" Foreground="#FFDDDDDD" IsReadOnly="True"/>
+        <Label x:Name="NewDescriptionLabel" Content="New Description" HorizontalAlignment="Left" Margin="364,334,0,0" VerticalAlignment="Top" Foreground="#FFDDDDDD"/>
+        <TextBox x:Name="NewDescriptionBox" HorizontalAlignment="Left" Height="90" Margin="364,365,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="274" Background="#FF272727" Foreground="#FFDDDDDD"/>
+        <RadioButton x:Name="RB_NoTarget" Content="No Target" HorizontalAlignment="Left" Margin="364,20,0,0" VerticalAlignment="Top" Foreground="#FFDDDDDD" Background="#FF272727" IsChecked="True"/>
+        <RadioButton x:Name="RB_SelfTarget" Content="Self Target" HorizontalAlignment="Left" Margin="364,62,0,0" VerticalAlignment="Top" Foreground="#FFDDDDDD" Background="#FF272727"/>
+        <RadioButton x:Name="RB_TargetOthers" Content="Target Others" HorizontalAlignment="Left" Margin="364,106,0,0" VerticalAlignment="Top" Foreground="#FFDDDDDD" Background="#FF272727"/>
+        <Label x:Name="OldAttributeLabel" Content="Old Attribute:" HorizontalAlignment="Left" Margin="482,65,0,0" VerticalAlignment="Top" Foreground="#FFDDDDDD"/>
+        <TextBox x:Name="OldAttributeBox" HorizontalAlignment="Left" Height="22" Margin="590,69,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="48" Foreground="#FFDDDDDD" Background="#FF272727" IsReadOnly="True"/>
+        <Label x:Name="AttributeChangeLabel" Content="Attribute Change:" HorizontalAlignment="Left" Margin="482,102,0,0" VerticalAlignment="Top" Foreground="#FFDDDDDD"/>
+        <TextBox x:Name="AttributeChangeBox" HorizontalAlignment="Left" Height="22" Margin="590,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="48" Foreground="#FFDDDDDD" Background="#FF272727"/>
+        <Label x:Name="OldMoneyLabel" Content="Old Money:" HorizontalAlignment="Left" Margin="482,151,0,0" VerticalAlignment="Top" Foreground="#FFDDDDDD"/>
+        <TextBox x:Name="OldMoneyBox" HorizontalAlignment="Left" Height="22" Margin="590,155,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="48" Foreground="#FFDDDDDD" Background="#FF272727" IsReadOnly="True"/>
+        <Label x:Name="CostChangeLabel" Content="Money Change:" HorizontalAlignment="Left" Margin="482,188,0,0" VerticalAlignment="Top" Foreground="#FFDDDDDD"/>
+        <TextBox x:Name="CostChangeBox" HorizontalAlignment="Left" Height="22" Margin="590,192,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="48" Foreground="#FFDDDDDD" Background="#FF272727"/>
+        
+        <Menu x:Name="AttributeMenu" HorizontalAlignment="Left" Height="40" Margin="482,20,0,0" VerticalAlignment="Top" Width="156" Background="#FF272727" BorderBrush="#FFABADB3" Foreground="#FFDDDDDD" BorderThickness="1">
+            <MenuItem Header="No Attribute Change" Foreground="#FFDDDDDD" Click="MenuItem_Click"/>
+            <MenuItem Header="Change Attribute" Foreground="#FFDDDDDD">
+                <MenuItem Header="Money" Background="#FF272727" Foreground="#FFDDDDDD" BorderBrush="#FFABADB3" Click="MenuItem_Click"/>
+                <MenuItem Header="Users" Background="#FF272727" Foreground="#FFDDDDDD" BorderBrush="#FFABADB3" Click="MenuItem_Click"/>
+                <MenuItem Header="Memes" Background="#FF272727" Foreground="#FFDDDDDD" BorderBrush="#FFABADB3" Click="MenuItem_Click"/>
+                <MenuItem Header="Bandwidth" Background="#FF272727" Foreground="#FFDDDDDD" BorderBrush="#FFABADB3" Click="MenuItem_Click"/>
+            </MenuItem>
+        </Menu>
+        
 
-		<Menu x:Name="AttributeMenu" HorizontalAlignment="Left" Height="40" Margin="482,20,0,0" VerticalAlignment="Top" Width="156" Background="#FF272727" BorderBrush="#FFABADB3" Foreground="#FFDDDDDD" BorderThickness="1">
-			<MenuItem Header="No Attribute Change" Foreground="#FFDDDDDD" Click="MenuItem_Click"/>
-			<MenuItem Header="Change Attribute" Foreground="#FFDDDDDD">
-				<MenuItem Header="Money" Background="#FF272727" Foreground="#FFDDDDDD" BorderBrush="#FFABADB3" Click="MenuItem_Click"/>
-				<MenuItem Header="Users" Background="#FF272727" Foreground="#FFDDDDDD" BorderBrush="#FFABADB3" Click="MenuItem_Click"/>
-				<MenuItem Header="Memes" Background="#FF272727" Foreground="#FFDDDDDD" BorderBrush="#FFABADB3" Click="MenuItem_Click"/>
-				<MenuItem Header="Bandwidth" Background="#FF272727" Foreground="#FFDDDDDD" BorderBrush="#FFABADB3" Click="MenuItem_Click"/>
-			</MenuItem>
-		</Menu>
-	</Grid>
+    </Grid>
 </Window>
